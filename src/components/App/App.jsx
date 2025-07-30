@@ -11,8 +11,8 @@ import '../App/app.scss';
             <Header/>
             <Routes>
                 <Route path='/' element={<Home/>}/>
-                <Route path='setup' element={<Setup/>}/>
-                <Route path='tracker' element={<Tracker/>}/>
+                <Route path='/setup' element={<Setup/>}/>
+                <Route path='/tracker' element={<Tracker/>}/>
             </Routes>
         </div>
     );
