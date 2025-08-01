@@ -13,16 +13,38 @@
         gap: 16px;
     }
 
+    &__result-block {
+        margin: 20px 5px 5px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__result {
+        color: black;
+        font-size: 23px;
+    }
+
     &__select-gender,
-    select,
-    input {
-        padding: 12px 14px;
-        font-size: 1rem;
-        border: 1px solid #cbd5e1;
-        border-radius: 8px;
-        background-color: #fff;
-        color: #243b1e;
-        transition: border-color 0.3s;
+        select,
+        input[type=number] {
+            padding: 12px 14px;
+            font-size: 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background-color: #fff;
+            color: #243b1e;
+            transition: border-color 0.3s;
+            text-align: center;
+
+            -moz-appearance: textfield;
+
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
 
         &:focus {
             outline: none;
