@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Button from '../Button/Button';
+
 import '../UserForm/userForm.scss';
 
 export default function UserForm() {
@@ -6,17 +8,19 @@ export default function UserForm() {
     const [gender, setGender] = useState('');
     const [activity, setActivity] = useState('');
     const [calories, setCalories] = useState('');
+    const [userTarget, setUserTarget] = useState(null);
     const [formData, setFormData] = useState({
         age: '',
         weight: '',
         height: '',
     });
-
     let bmr;
 
     function handleSubmit(e) {
         e.preventDefault();
         const {weight, height, age} = formData;
+        localStorage.setItem('userCalories', calories);
+
         console.log(formData, gender, activity);
 
         if (!weight || !height || !age || !gender || !activity) {
@@ -31,8 +35,14 @@ export default function UserForm() {
         }
         
         setCalories(bmr);
+    };
 
-        // localStorage.setItem
+    function targetCalories(target) {
+        if(!calories) return;
+        
+        const userTarget = Math.round(calories * target);
+
+        setUserTarget(userTarget);
     }
 
     return(
@@ -44,7 +54,7 @@ export default function UserForm() {
             >
                 <h3 style={{
                         display: !error ? 'none' : 'block',
-                        color: 'red',
+                        color: '#bc333cff',
                         textAlign: 'center',
                         fontSize: '20px'
                 }}>
@@ -90,12 +100,30 @@ export default function UserForm() {
                     <option value="1.725">High</option>
                     <option value="1.9">Very high</option>
                 </select>
-                <button>Сalculate calories</button>
+                <Button text='Daily intake' className="user-form__btn"/>
+                <div className="user-form__result-block">
+                    <h3 className="user-form__result">
+                        Your daily calories: <strong>{calories !== '' ? calories : '___'}</strong> kkal
+                    </h3>
+                </div>
             </form>
-            <div className="user-form__result-block">
-                <h3 className="user-form__result">
-                    Your daily calories: <strong>{calories !== '' ? calories : '___'}</strong> kkal
-                </h3>
+            <div className="user-form__target-calories-box">
+                <h3 className="user-form__target-calories-title">Get your target calories</h3>
+                    <div className="user-form__btns-box">
+                        <Button 
+                            text='Calc deficit' 
+                            className="user-form__btn-target"
+                            onClick={()=> targetCalories(0.8)}
+                        />
+                        <Button 
+                            text='Calc surplus' 
+                            className="user-form__btn-target"
+                            onClick={()=> targetCalories(1.2)}
+                        />
+                    </div>
+                <p className="user-form__target-calories-result">
+                    {!userTarget ? 'Calculate your calories' : <>Your target: <strong>{userTarget}</strong> kkal</>}
+                </p>
             </div>
         </section>
     )
