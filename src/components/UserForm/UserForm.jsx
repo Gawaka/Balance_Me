@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { saveToStorage, getFromStorage, usersProfiles } from '../../services/dataBase';
 import Button from '../Button/Button';
-
+import '../../services/dataBase';
 import '../UserForm/userForm.scss';
 
 export default function UserForm() {
@@ -8,18 +9,24 @@ export default function UserForm() {
     const [gender, setGender] = useState('');
     const [activity, setActivity] = useState('');
     const [calories, setCalories] = useState('');
-    const [userTarget, setUserTarget] = useState(null);
+    const [userTarget, setUserTarget] = useState('');
     const [formData, setFormData] = useState({
         age: '',
         weight: '',
         height: '',
+        activity: ''
     });
     let bmr;
 
     function handleSubmit(e) {
         e.preventDefault();
         const {weight, height, age} = formData;
-        localStorage.setItem('userCalories', calories);
+        const userCalories = Number(calories);
+        const userCaloriesTarget = Number(userTarget);
+        const weightNum = Number(weight);
+        const heightNum = Number(height);
+        const ageNum = Number(age);
+        const activityNum = Number(activity);
 
         console.log(formData, gender, activity);
 
@@ -35,15 +42,35 @@ export default function UserForm() {
         }
         
         setCalories(bmr);
+        
+        const userProfile = {
+            gender: gender,
+            age: ageNum,
+            weight: weightNum,
+            height: heightNum,
+            activity: activityNum,
+            calories: bmr,
+            caloriesTarget: userCaloriesTarget
+        };
+
+        console.log(userProfile);
+        
+
+        saveToStorage('userProfile', userProfile);
     };
 
     function targetCalories(target) {
         if(!calories) return;
         
         const userTarget = Math.round(calories * target);
-
         setUserTarget(userTarget);
-    }
+
+        const profile = getFromStorage('userProfile');
+        if(profile) {
+            const updateProfile = {...profile, caloriesTarget: userTarget};
+            saveToStorage('userProfile', updateProfile);
+        }
+    };
 
     return(
         <section className="user-form">
