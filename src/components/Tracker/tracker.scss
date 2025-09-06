@@ -1,3 +1,4 @@
+@import '../../style/mixins';
 
 .tracker {
     margin: 0 auto;
@@ -68,30 +69,7 @@
             flex-direction: column;
             gap: 16px;
 
-            input[type=number],[type=text] {
-                padding: 12px 14px;
-                font-size: 1rem;
-                border: 1px solid #016554;
-                border-radius: 8px;
-                background-color: #fbf1e4;
-                color: #243b1e;
-                transition: border-color 0.3s;
-                text-align: center;
-
-                -moz-appearance: textfield;
-
-                &::-webkit-outer-spin-button,
-                &::-webkit-inner-spin-button {
-                    -webkit-appearance: none;
-                    margin: 0;
-                }
-
-                &:focus {
-                    outline: none;
-                    border-color: #77b967;
-                    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
-                }
-            }
+            @include input(12px 14px);
         }
     }
 
@@ -106,14 +84,37 @@
     &__meals-list-item {
         padding: 10px 10px;
         display: flex;
-        text-align: center;
-        align-items: center;
         justify-content: space-between;
         border-bottom: 1px solid #fbf1e4;
         
         p {
             font-size: 1.3rem;
             color: #e4f8ae;
+        }
+
+        @include input(5px 10px);
+    }
+
+        &__meals-list-item:last-child {
+        border-bottom: none;
+    }
+
+    &__meals-text-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        &--edit-mode {
+            // margin: 0 auto;
+            
+            button {
+                position: relative;
+                left: 46%;
+                bottom: 45px;
+                transition: transform 0.2s ease;
+            } button:hover {
+                transform: scale(1.5);
+            }
         }
     }
 
@@ -129,10 +130,6 @@
 
     &__meals-btns-box button:hover {
         transform: scale(1.5);
-    }
-
-    &__meals-list-item:last-child {
-        border-bottom: none;
     }
 
     &__meals-summary {

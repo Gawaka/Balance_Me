@@ -1,0 +1,27 @@
+
+@mixin input($padding) {
+        input[type=number],[type=text] {
+        padding: $padding;
+        font-size: 1rem;
+        border: 1px solid #016554;
+        border-radius: 8px;
+        background-color: #fbf1e4;
+        color: #243b1e;
+        transition: border-color 0.3s;
+        text-align: center;
+
+        -moz-appearance: textfield;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: #77b967;
+            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
+        }
+    }
+}

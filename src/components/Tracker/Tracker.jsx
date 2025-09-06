@@ -10,9 +10,11 @@ export default function Tracker() {
     const [meals, setMeals] = useState([]);
     const [mealName, setMealName] = useState('');
     const [mealCalories, setMealCalories] = useState('');
+    const [editingId, setEditingId] = useState(null);
+    const [editCalories, setEditCalories] = useState('');
+    const [editName, setEditName] = useState('');
 
     const profile = getFromStorage('userProfile');
-    const {activity, age, calories, caloriesTarget, gender, height, weight} = profile;
     const totalMealsCalories = meals.reduce((sum, meal)=> sum + meal.caloriesMeal, 0);
 
         useEffect(()=> {
@@ -25,6 +27,8 @@ export default function Tracker() {
         useEffect(()=> {
             saveToStorage('meals', meals);
         }, [meals]);
+
+        // console.log(meals);
 
     if (!profile) {
     return (
@@ -51,8 +55,6 @@ export default function Tracker() {
         const updatedMeals = [...meals, newMeals];
 
         setMeals(updatedMeals);
-        saveToStorage('meals', updatedMeals);
-
         setMealName('');
         setMealCalories('');
     };
@@ -61,11 +63,34 @@ export default function Tracker() {
         return total - target
     };
 
+    function resetEditState() {
+        setEditingId(null);
+        setEditName('');
+        setEditCalories('');
+    };
+
     function deleteMeal(id) {
         const newMeals = meals.filter(meal=> meal.id !== id);
         setMeals(newMeals);
-        saveToStorage('meals', newMeals);
     };
+
+    function editMeal(meal) {
+        setEditingId(meal.id);
+        setEditCalories(String(meal.caloriesMeal));
+        setEditName(meal.nameMeal);
+    };
+
+    function editSave() {
+        setMeals(prev=> prev.map(item=> (
+            item.id === editingId ? {...item, nameMeal: editName, caloriesMeal: Number(editCalories)} : item
+        )));
+
+        resetEditState();
+    }
+
+    console.log(meals);
+
+    const {activity, age, calories, caloriesTarget, gender, height, weight} = profile;
 
     return(
         <section className="tracker">
@@ -117,15 +142,55 @@ export default function Tracker() {
                         <h4>Your meals</h4>
                         {
                             meals.map((item, id)=> (
-                                <li className="tracker__meals-list-item" key={item.id}>
-                                    <div className="tracker__meals-text-box">
-                                        <p>{item.nameMeal}</p>
-                                        <p>{item.caloriesMeal} kkal</p>
-                                    </div>
-                                    <div className="tracker__meals-btns-box">
-                                        <button>✏️</button>
-                                        <button onClick={()=> deleteMeal(item.id)}>🗑️</button>
-                                    </div>
+                                <li className="tracker__meals-list-item" key={id}>
+                                    {
+                                        editingId === item.id 
+                                            ? (
+                                                <div className="tracker__meals-text-box--edit-mode"
+                                                    onBlur={(e)=> {
+                                                        if (!e.currentTarget.contains(e.relatedTarget)) {
+                                                            resetEditState();
+                                                        }
+                                                    }}
+                                                    tabIndex={-1}
+                                                >
+                                                    <input 
+                                                        type='text'
+                                                        placeholder={item.nameMeal}
+                                                        onChange={e=> setEditName(e.target.value)}
+                                                    />
+                                                    <input 
+                                                        type='number' 
+                                                        placeholder={item.caloriesMeal}
+                                                        onChange={e=> setEditCalories(e.target.value)}
+                                                    />
+                                                    <div>
+                                                        <button 
+                                                            type='button' 
+                                                            className='tracker__meals-confirm'
+                                                            onClick={editSave}
+                                                        >✅</button>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    <div className="tracker__meals-text-box">
+                                                        <p>{item.nameMeal}</p>
+                                                        <p>{item.caloriesMeal} kkal</p>
+                                                    </div>
+                                                    <div className="tracker__meals-btns-box">
+                                                    <button
+                                                        type='button'
+                                                        onClick={()=> editMeal(item)}
+                                                    >✏️</button>
+                                                    <button
+                                                        type='button'
+                                                        onClick={()=> deleteMeal(item.id)}
+                                                    >🗑️</button>
+                                                    </div>
+                                                </>
+                                            )
+                                    }
                                 </li>
                             ))
                         }
