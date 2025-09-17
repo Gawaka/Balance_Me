@@ -1,0 +1,33 @@
+@import '../../style/mixins'; 
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    width: 300px;       /* або будь-яку бажану ширину */
+    padding: 20px;
+    margin: 0 auto;     /* по горизонталі по центру */
+    padding: 16px;
+    background-color: #baaf68d4;
+    border-radius: 10px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.05);
+    max-width: 450px;
+    margin: 0 auto;
+
+    input {
+        padding: 12px 14px;
+        font-size: 1rem;
+        border: 1px solid #016554;
+        border-radius: 8px;
+        background-color: #fbf1e4;
+        color: #243b1e;
+        transition: border-color 0.3s;
+        text-align: center;
+    }
+
+    button {
+        width: auto;
+        align-self: center; 
+    }
+}

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Button from '../Button/Button';
 import '../Header/header.scss';
 
 export default function Header() {
@@ -10,6 +11,8 @@ export default function Header() {
                         <li className="header__nav-item"><Link to="/">Головна</Link></li>
                         <li className="header__nav-item"><Link to="/setup">Налаштування</Link></li>
                         <li className="header__nav-item"><Link to="/tracker">Трекер</Link></li>
+                        <Link to="/login"><Button text="Sign In"></Button></Link>
+                        <Link to="/register"><Button text="Sign Up"></Button></Link>
                     </ul>
                 </nav>
             </div>

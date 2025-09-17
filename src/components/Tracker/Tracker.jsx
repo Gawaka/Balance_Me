@@ -99,7 +99,7 @@ export default function Tracker() {
                     <div className="tracker__profile">
                         <h3>your personal data</h3>
                         <p>Gender: {gender === 'male' ? 'man' : 'woman'}</p>
-                        <p>{age}</p>
+                        <p>{age} years</p>
                         <p>{weight} kg</p>
                         <p>{height} sm</p>
                         <p>{activity === 1.2 
