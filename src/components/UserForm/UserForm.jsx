@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import auth, { db } from "../../firebase";
+import { doc, updateDoc } from "firebase/firestore";
 import { saveToStorage, getFromStorage, usersProfiles } from '../../services/dataBase';
 import Button from '../Button/Button';
 import '../../services/dataBase';
@@ -52,11 +54,19 @@ export default function UserForm() {
             calories: bmr,
             caloriesTarget: userCaloriesTarget
         };
-
         console.log(userProfile);
         
-
         saveToStorage('userProfile', userProfile);
+
+        const userRef = doc(db, "users", auth.currentUser.uid);
+
+        updateDoc(userRef, userProfile)
+            .then(()=> {
+                console.log("User profile updated in Firestore");
+            })
+            .catch((error)=> {
+                setError(console.log("Error updating user profile: ", error));
+            })
     };
 
     function targetCalories(target) {

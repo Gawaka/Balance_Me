@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import auth, { db } from "../../firebase";
+import { doc, updateDoc } from "firebase/firestore";
 import { Link } from 'react-router-dom';
 import Button from '../Button/Button';
 import { getFromStorage, saveToStorage } from '../../services/dataBase';
@@ -15,6 +17,7 @@ export default function Tracker() {
     const [editName, setEditName] = useState('');
 
     const profile = getFromStorage('userProfile');
+    // const userName = localStorage.getItem('userName');
     const totalMealsCalories = meals.reduce((sum, meal)=> sum + meal.caloriesMeal, 0);
 
         useEffect(()=> {
@@ -57,6 +60,16 @@ export default function Tracker() {
         setMeals(updatedMeals);
         setMealName('');
         setMealCalories('');
+
+        const userRef = doc(db, "users", auth.currentUser.uid); ////////////////// COMITTTTTTTTTTTTTTTTT!!!!!!!!!!!!!!!!
+
+        updateDoc(userRef, {meals: updatedMeals})
+            .then(()=> {
+                console.log('User meals updated in Firestore')
+            })
+            .catch((error) => {
+                console.error("Error updating user profile: ", error);
+            });
     };
 
     function calcLeftCalories(total, target) {
@@ -98,6 +111,7 @@ export default function Tracker() {
             <div className="tracker__box">
                     <div className="tracker__profile">
                         <h3>your personal data</h3>
+                        {/* <p>{userName}</p> */}
                         <p>Gender: {gender === 'male' ? 'man' : 'woman'}</p>
                         <p>{age} years</p>
                         <p>{weight} kg</p>

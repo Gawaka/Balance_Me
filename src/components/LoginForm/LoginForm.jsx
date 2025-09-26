@@ -1,6 +1,4 @@
 import { useState } from "react";
-import auth from "../../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import Button from "../Button/Button";
 
 import "../LoginForm/loginForm.scss";
@@ -8,6 +6,7 @@ import "../LoginForm/loginForm.scss";
 export default function LoginForm({mode, handleSubmit, buttonText, typeButton}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [userName, setUserName] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState(null);
 
@@ -15,6 +14,7 @@ export default function LoginForm({mode, handleSubmit, buttonText, typeButton}) 
             setEmail('');
             setPassword('');
             setConfirmPassword('');
+            setUserName('');
             setError(null);
     };
 
@@ -22,9 +22,18 @@ export default function LoginForm({mode, handleSubmit, buttonText, typeButton}) 
         <form className="login-form" onSubmit={(e)=> {
             e.preventDefault();
             console.log("FORM SUBMIT CLICKED", {email, password, confirmPassword});
-            handleSubmit(email, password, confirmPassword);
+            handleSubmit(email, password, confirmPassword, userName);
             clearForm();
         }}>
+            {
+                mode === 'register' ?
+                    <input type="text" 
+                        placeholder="your name"
+                        value={userName}
+                        onChange={(e)=> setUserName(e.target.value)}
+                    /> :
+                null
+            }
             <input 
                 type="email" 
                 placeholder="email"
@@ -40,11 +49,11 @@ export default function LoginForm({mode, handleSubmit, buttonText, typeButton}) 
             {
                 mode === 'register' ?
                     <input 
-                    type="password" 
-                    placeholder="confirm password"
-                    value={confirmPassword} 
-                    onChange={(e)=> setConfirmPassword(e.target.value)}
-                /> :
+                        type="password" 
+                        placeholder="confirm password"
+                        value={confirmPassword} 
+                        onChange={(e)=> setConfirmPassword(e.target.value)}
+                    /> :
                 null
             }
             <Button type={typeButton} text={buttonText}/>

@@ -5,13 +5,14 @@
     text-align: center;
 
         &__box {
-            padding: 24px;
+            width: 450px;
+            padding: 30px 20px;
             background-color: #baaf68d4;
             border-radius: 10px;
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.05);
             max-width: 450px;
             margin: 0 auto;
-            max-width: 402px;
+            // max-width: 402px;
         }
 
     h2 {
@@ -38,10 +39,10 @@
 
     &__profile {
         margin: 0 auto;
-        max-width: 325px;
+        // max-width: 325px;
         box-shadow: 6px 6px 3px 0px rgba(0,0,0,0.31);
         background-color: #75ae8c;
-        padding: 15px;
+        padding: 10px 24px;
         border-radius: 10px;
 
         p {
