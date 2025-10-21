@@ -11,6 +11,7 @@ export default function Header() {
                         <li className="header__nav-item"><Link to="/">Головна</Link></li>
                         <li className="header__nav-item"><Link to="/setup">Налаштування</Link></li>
                         <li className="header__nav-item"><Link to="/tracker">Трекер</Link></li>
+                        <li className="header__nav-item"><Link to="/userProfile">Профіль</Link></li>
                         <Link to="/login"><Button text="Sign In"></Button></Link>
                         <Link to="/register"><Button text="Sign Up"></Button></Link>
                     </ul>

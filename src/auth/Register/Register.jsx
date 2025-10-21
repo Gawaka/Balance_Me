@@ -3,7 +3,6 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, setDoc, doc } from "firebase/firestore"; 
 import auth, { db } from "../../firebase";
 import LoginForm from "../../components/LoginForm/LoginForm";
-
 import "../Register/register.scss";
 
 export default function Register() {
@@ -50,5 +49,5 @@ export default function Register() {
                 typeButton="submit"
             />
         </div>
-    )
-}
+    );
+};

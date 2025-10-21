@@ -1,9 +1,7 @@
 import { useState } from "react";
 import auth from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-
 import LoginForm from "../../components/LoginForm/LoginForm";
-
 import "../Login/login.scss";
 
 export default function Login() {
@@ -20,7 +18,7 @@ export default function Login() {
                 console.log(error);
                 setError("vsio, pizda! Couldn't find your account!")
             })
-    }
+    };
 
     return(
         <div className="login-page">
@@ -32,5 +30,5 @@ export default function Login() {
                 typeButton="submit"
             />
         </div>
-    )
+    );
 };

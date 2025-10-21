@@ -8,7 +8,6 @@ import { getFromStorage, saveToStorage } from '../../services/dataBase';
 import '../Tracker/tracker.scss';
 
 export default function Tracker() {
-    const [userProfile, setUserProfile] = useState(null);
     const [meals, setMeals] = useState([]);
     const [mealName, setMealName] = useState('');
     const [mealCalories, setMealCalories] = useState('');
@@ -20,12 +19,12 @@ export default function Tracker() {
     // const userName = localStorage.getItem('userName');
     const totalMealsCalories = meals.reduce((sum, meal)=> sum + meal.caloriesMeal, 0);
 
-        useEffect(()=> {
-            const savedMeals = getFromStorage('meals');
-            if (savedMeals) {
-                setMeals(savedMeals)
-            }
-        }, []);
+        // useEffect(()=> {
+        //     const savedMeals = getFromStorage('meals');
+        //     if (savedMeals) {
+        //         setMeals(savedMeals)
+        //     }
+        // }, []);
 
         useEffect(()=> {
             saveToStorage('meals', meals);
@@ -61,7 +60,7 @@ export default function Tracker() {
         setMealName('');
         setMealCalories('');
 
-        const userRef = doc(db, "users", auth.currentUser.uid); ////////////////// COMITTTTTTTTTTTTTTTTT!!!!!!!!!!!!!!!!
+        const userRef = doc(db, "users", auth.currentUser.uid);
 
         updateDoc(userRef, {meals: updatedMeals})
             .then(()=> {

@@ -1,0 +1,44 @@
+
+.profile-card {
+    padding: 20px;
+    background-color: #baaf68d4;
+    border-radius: 10px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.05);
+    max-width: 450px;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 50px;
+
+    &__wrapper {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        box-shadow: 6px 6px 3px 0px rgba(0,0,0,0.31);
+        background-color: #75ae8c;
+        padding: 15px;
+        border-radius: 10px;
+        gap: 16px;
+    }
+
+    &__user-info-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__avatar-box {
+        width: 150px;
+        height: 150px;
+
+        img {
+            border-radius: 50%;
+        }
+    }
+}
+
+.log-out {
+    width: 150px;
+    height: 50px;
+    margin: 0 auto;
+}
