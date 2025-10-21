@@ -1,35 +1,70 @@
-import { signOut } from "firebase/auth";
-import auth from "../../firebase";
+import { signOut} from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import auth, { db } from "../../firebase";
+import { useEffect, useState } from "react";
 import Button from '../../components/Button/Button';
 import '../UserProfile/userProfile.scss';
 
 export default function UserProfile() {
+    const [userData, setUserData] = useState(null);
+    const [error, setError] = useState(false);
 
     function handleLogOut() {
         signOut(auth)
             .then(user=> console.log('user is Log Out'))
             .catch(error=> console.log('error'))
-    }
+    };
+
+    useEffect(()=> {
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            console.warn('User is NOT logined!');
+            return;
+        }
+
+        const userRef = doc(db, 'users', currentUser.uid);
+
+        getDoc(userRef)
+            .then((userSnap)=> {
+                if (userSnap.exists()) {
+                    console.log("Дані користувача:", userSnap.data());
+                    setUserData(userSnap.data());
+                } else {
+                    console.log('Документ юзера не знайдено(');
+                }
+            })
+            .catch((error)=> {
+                setError(true);
+                console.log('Помилка при отриманні данних юзера!');
+            })
+    }, []);
 
     return(
         <section className="profile-card">
             <div className="profile-card__wrapper">
                 <h2 className="profile__card-title">Profile</h2>
-                <div className="profile-card__user-info-box">
-                    <div className="profile-card__avatar-box">
-                        <img className="profile-card__avatar" src="/" alt="user avatar" />
+                {userData ? (
+                    <>
+                    <div className="profile-card__user-info-box">
+                        <div className="profile-card__avatar-box">
+                            <img className="profile-card__avatar" src="/" alt="user avatar" />
+                        </div>
+                        <h3 className="profile-card__name">{userData.userName}</h3>
+                        <ul>
+                            <li className="profile-card__info-item">Вік: {userData.age}</li>
+                            <li className="profile-card__info-item">Вага: {userData.weight}</li>
+                            <li className="profile-card__info-item">Зріст: {userData.height}</li>
+                            <li className="profile-card__info-item">Калорії: {userData.calories}</li>
+                        </ul>
+                        <div className="profile-card__user-target">
+                            
+                        </div>
                     </div>
-                    <h3 className="profile-card__name">name</h3>
-                    <ul>
-                        <li className="profile-card__info-item">Вік</li>
-                        <li className="profile-card__info-item">Вага</li>
-                        <li className="profile-card__info-item">Зріст</li>
-                        <li className="profile-card__info-item">Калораж</li>
-                    </ul>
-                    <div className="profile-card__user-target">
-                        
-                    </div>
-                </div>
+                    </>
+                ) : (
+                    <p>Loading user data...</p>
+                )}
                 <Button 
                     text="Log out" 
                     type="submit"
