@@ -3,6 +3,8 @@ import { doc, getDoc } from "firebase/firestore";
 import auth, { db } from "../../firebase";
 import { useEffect, useState } from "react";
 import Button from '../../components/Button/Button';
+import avatar from '../../img/avatar.png';
+import { AvatarPlaceholder } from "../../components/AvatarPlaceholder/AvatarPlaceholder";
 import '../UserProfile/userProfile.scss';
 
 export default function UserProfile() {
@@ -46,12 +48,14 @@ export default function UserProfile() {
                 <h2 className="profile__card-title">Profile</h2>
                 {userData ? (
                     <>
+                    {/* <div className="profile-card__avatar-box">
+                        <img className="profile-card__avatar" src={avatar} alt="user avatar" />
+                    </div> */}
+                    <AvatarPlaceholder/>
                     <div className="profile-card__user-info-box">
-                        <div className="profile-card__avatar-box">
-                            <img className="profile-card__avatar" src="/" alt="user avatar" />
-                        </div>
                         <h3 className="profile-card__name">{userData.userName}</h3>
-                        <ul>
+                        <h3 className="profile-card__name">{userData.email}</h3>
+                        <ul className="profile-card__info-items">
                             <li className="profile-card__info-item">Вік: {userData.age}</li>
                             <li className="profile-card__info-item">Вага: {userData.weight}</li>
                             <li className="profile-card__info-item">Зріст: {userData.height}</li>

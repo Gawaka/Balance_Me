@@ -15,6 +15,7 @@ import '../App/app.scss';
 
     function App() {
         const [currentUser, setCurrentUser] = useState(null);
+        const [user, setUser] = useState(null);
 
         useEffect(()=> {
             const unsubscribe = onAuthStateChanged(auth, (user)=> {
@@ -26,7 +27,7 @@ import '../App/app.scss';
 
     return (
         <div className="app">
-            <Header/>
+            <Header currentUser={currentUser}/>
             <Routes>
                 <Route path='/login' element={<Login/>}/>
                 <Route path='/register' element={<Register/>}/>
